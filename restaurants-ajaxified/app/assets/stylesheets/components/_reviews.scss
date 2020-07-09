@@ -1,0 +1,24 @@
+#reviews {
+  p {
+    position: relative;
+    background-color: rgba(yellow, 0.05);
+    border: solid 1px rgba(black, 0.1);
+    padding: 1em;
+  }
+  a, input[type='submit'] {
+    position: absolute;
+    bottom: 1em;
+    right: 1em;
+  }
+  a:hover {
+    text-decoration: none;
+  }
+}
+
+.simple_form {
+  position: relative;
+}
+
+.hidden {
+  display: none;
+}

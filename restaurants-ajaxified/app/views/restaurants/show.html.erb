@@ -1,0 +1,35 @@
+<h1><%= @restaurant.name %></h1>
+<p><small><%= @restaurant.address %></small></p>
+<h3>
+  <%= pluralize @restaurant.reviews.size, "review" %>
+</h3>
+
+<div id="reviews">
+  <% if @restaurant.reviews.blank? %>
+    Be the first to leave a review for <%= @restaurant.name %>
+  <% else %>
+    <% @restaurant.reviews.sort.each do |review| %>
+    <div data-controller="reviews">
+
+      <%# HIDDEN EDIT FORM %>
+      <%= simple_form_for review, html: { class: 'hidden', data: { target: 'reviews.editForm' } }, remote: true do |f| %>
+        <%= f.input :content, label: false, input_html: { data: { target: 'reviews.editInput', action: 'keydown->reviews#submitOnEnter' } } %>
+        <%= f.button :submit, class: 'btn btn-primary hidden', data: { target: 'reviews.submitBtn' } %>
+      <% end %>
+
+      <%# REVIEW CONTENT %>
+      <p id="review-<%= review.id %>" data-action="dblclick->reviews#showEditForm">
+        <%= review.content %>
+        <%#= link_to "Delete", review_path(review), method: :delete, remote: true %>
+      </p>
+      
+    </div>
+    <% end %>
+  <% end %>
+</div>
+
+<h3 class="mt-3">Leave a review</h3>
+<%= simple_form_for [ @restaurant, @review ], remote: true do |f| %>
+  <%= f.input :content, label: false %>
+  <%= f.button :submit, class: 'btn btn-primary' %>
+<% end %>
